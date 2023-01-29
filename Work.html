@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <title>Work</title>
+</head>
+
+<body>
+    <div id="infoContainer">
+        <h1>Sara Costa</h1>
+        <a href="Work.html">
+            <h1 id="title">Work <span class="subtitle"> </span></h1>
+        </a>
+
+        <a href="About.html">
+            <h1 id="title">About <span class="subtitle"> </span></h1>
+        </a>
+
+        <a href="Contact.html">
+            <h1 id="title">Contacts <span class="subtitle"> </span></h1>
+        </a>
+    </div>
+
+    <div id="projects-container">
+        <div class="project-card"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+<script>
+
+    async function fetchProjectsJSON() {
+        const response = await fetch('https://portfolio-c52904.ingress-earth.ewp.live/wp-json/wp/v2/works');
+        const projects = await response.json();
+        return projects;
+    }
+
+    fetchProjectsJSON()
+        .then(projects => {
+            console.log(projects); // fetched projects
+            // sort the projects by id
+            projects.sort((a, b) => a.id - b.id);
+            for (let i = 0; i < projects.length; i++) {
+                // Create the project card element
+                const card = document.createElement('div');
+                card.classList.add('project-card');
+
+                // Add the project title and link to the card
+                const title = document.createElement('h2');
+                const link = document.createElement('a');
+                link.href = `project.html?slug=${projects[i].slug}`;
+                link.textContent = projects[i].title.rendered;
+                title.appendChild(link);
+                card.appendChild(title);
+
+                // Add the project description to the card
+                const description = document.createElement('p');
+                description.textContent = projects[i].description;
+                card.appendChild(description);
+                
+
+                // Fetch the featured image for the project
+                fetch(`https://portfolio-c52904.ingress-earth.ewp.live/wp-json/wp/v2/works?slug=${projects[i].featured_img}`)
+                    .then(response => response.json())
+                    .then(imageData => {
+                        // Create the project image element
+                        const image = document.createElement('img');
+                        image.src = imageData.source_url;
+                        card.appendChild(image);
+                    })
+                    .catch(error => {
+                        console.log(`Error: ${error}`);
+                    });
+
+                // Append the card to the DOM
+                document.getElementById('projects-container').appendChild(card);
+            }
+        })
+        
+        .catch(error => {
+            console.log(`Error: ${error}`);
+        });
+
+</script>
+
+</html>

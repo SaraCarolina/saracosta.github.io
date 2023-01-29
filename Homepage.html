@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Portfolio</title>
+</head>
+
+<body>
+    <div id="infoContainer">
+        <h1>Sara Costa</h1>
+        <a href="Work.html">
+            <h1 id="title">Work <span class="subtitle"> </span></h1>
+        </a>
+
+        <a href="About.html">
+            <h1 id="title">About <span class="subtitle"> </span></h1>
+        </a>
+
+        <a href="Contact.html">
+            <h1 id="title">Contacts <span class="subtitle"> </span></h1>
+        </a>
+    </div>
+
+    <div id="content" style="text-align: center">
+
+        <h1 id="h1d">Welcome to my portfolio</h1>
+
+        <div id="text-container">
+            <div id="sentence1"></div><br>
+            <div id="sentence2"></div>
+        </div>
+</body>
+
+<script>
+
+    const sentence1 = "My name is Sara, and I'm a University student.";
+    const sentence2 = "Take a look at my work!";
+
+    let i = 0;
+
+    function writeSentence1() {
+        if (i < sentence1.length) {
+            document.getElementById("sentence1").innerHTML += sentence1.charAt(i);
+            i++;
+            setTimeout(writeSentence1, 50);
+        } else {
+            i = 0;
+            setTimeout(writeSentence2, 1000);
+        }
+    }
+
+    function writeSentence2() {
+        if (i < sentence2.length) {
+            document.getElementById("sentence2").innerHTML += sentence2.charAt(i);
+            i++;
+            setTimeout(writeSentence2, 50);
+        }
+    }
+
+    writeSentence1();
+
+</script>
+
+</html>
